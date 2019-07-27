@@ -1,6 +1,7 @@
 var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
+var constant = require('./constant');
 var app = express();
 var router = express.Router();
 
@@ -14,11 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 router.get("/",(req,res)=>{
-  res.render('header', {baseUrl:"http://localhost:5000" });
+  res.render('header', {baseUrl:constant.baseUrl });
 })
 
 
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || constant.PORT);
 app.use('/', router);
 
 var server = app.listen(app.get('port'), function() {
