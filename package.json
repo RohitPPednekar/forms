@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/RohitPPednekar/forms/issues"
   },
+<<<<<<< Updated upstream
   "homepage": "https://github.com/RohitPPednekar/forms#readme"
+=======
+  "homepage": "https://github.com/RohitPPednekar/forms#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jade": "^1.11.0"
+  }
+>>>>>>> Stashed changes
 }

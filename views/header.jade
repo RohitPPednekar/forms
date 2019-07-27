@@ -1,0 +1,15 @@
+html
+	head
+		//- StyleSheets
+		link(href='#{baseUrl}/css/bootstrap.min.css', rel='stylesheet')
+		link(rel='stylesheet', type='text/css', href='#{baseUrl}/css/index.css')
+		
+		//- Scripts
+		script(type='text/javascript', src='#{baseUrl}/scripts/jquery.min.js')
+		script(type='text/javascript', src='#{baseUrl}/scripts/bootstrap.min.js')
+		
+	body
+		p 
+			| this is test app
+	script.
+		//var baseUrl = '#{baseUrl}';
