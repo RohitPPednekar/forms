@@ -1,0 +1,19 @@
+{
+  "name": "forms",
+  "version": "1.0.0",
+  "description": "A simple form node app which is to be up on node server and it takes data from client form and stores in db",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RohitPPednekar/forms.git"
+  },
+  "author": "Rohit Pednekar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RohitPPednekar/forms/issues"
+  },
+  "homepage": "https://github.com/RohitPPednekar/forms#readme"
+}
