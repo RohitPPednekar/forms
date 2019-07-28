@@ -9,7 +9,32 @@ html
 		script(type='text/javascript', src='#{baseUrl}/scripts/bootstrap.min.js')
 		
 	body
-		p 
-			| this is test app
+		.container
+			form
+				.form-row
+					.col-md-4.mb-3
+						label(for='validationServer01') Name
+						input#validationServer01.form-control.is-valid(type='text', placeholder='Name', value='Mark', required='')
+						.valid-feedback Looks good!
+					.col-md-4.mb-3
+						label(for='validationServer02') Phone number
+						input#validationServer02.form-control.is-valid(type='text', placeholder='Phone number', value='Otto', required='')
+						.valid-feedback Looks good!
+				.form-row
+					.col-md-4.mb-3
+						label(for='validationServer03') Job Title
+						input#validationServer03.form-control.is-invalid(type='text', placeholder='Job Title', required='')
+						.invalid-feedback Please provide a valid city.
+					.col-md-4.mb-3
+						label(for='exampleFormControlInput1') Email Id
+						input#exampleFormControlInput1.form-control(type='email', placeholder='name@example.com')
+				.form-row
+					.col-md-8.mb-3
+						.custom-file
+							input#validatedCustomFile.custom-file-input(type='file', required='')
+							label.custom-file-label(for='validatedCustomFile') Resume Upload...
+							.invalid-feedback Example invalid custom file feedback
+				.form-group
+				button.btn.btn-primary(type='submit') Submit form
 	script.
 		//var baseUrl = '#{baseUrl}';
