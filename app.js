@@ -2,6 +2,7 @@ var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
 var constant = require('./constant');
+var db = require('./utils/db');
 var app = express();
 var router = express.Router();
 
