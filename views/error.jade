@@ -1,0 +1,17 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Error 404
+    // Google font
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:200,400,700', rel='stylesheet')
+    // Custom error stlylesheet
+    link(type='text/css', rel='stylesheet', href='#{data.baseUrl}/css/error.css')
+  body
+    #notfound
+      .notfound
+        .notfound-404
+          h1 Oops!
+          h2 #{data.statusCode} - #{message} 
+        a(href='#{data.baseUrl}') Go TO Homepage
+  
