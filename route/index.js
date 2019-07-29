@@ -16,7 +16,10 @@ var db = require('../utils/db');
  * Description :- Get route for main url for rendering the form page
 */
 router.get("/",(req,res)=>{
-    res.render('header', {baseUrl:constant.baseUrl });
+    db.db.users.find().toArray(function(err, users) {
+      res.render('header', {baseUrl:constant.baseUrl,visits : users.length });
+    });
+    
   })
   
   /** 
