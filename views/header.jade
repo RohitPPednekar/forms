@@ -11,6 +11,11 @@ html
 		script(type='text/javascript', src="#{baseUrl}/scripts/bootbox.js")
 	body
 		.container
+			.jumbotron
+				h1 Job Form
+				p
+					| Total Visits :- #{visits}
+
 			form#form(method="POST" action="#{baseUrl}/")
 				.form-row
 					.col-md-4.mb-3
@@ -120,7 +125,10 @@ html
 							$('#form #jobTitle').val('');
 							$('#form #emailId').val('');
 							$('#form #resume').val('');
-							bootbox.alert(response.message);
+							bootbox.alert(response.message,function(){
+								window.location.reload();
+							});
+
 						}else if(response.status == 400) {
 							bootbox.alert(response.message);
 						}else{
