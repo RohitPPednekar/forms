@@ -7,34 +7,130 @@ html
 		//- Scripts
 		script(type='text/javascript', src='#{baseUrl}/scripts/jquery.min.js')
 		script(type='text/javascript', src='#{baseUrl}/scripts/bootstrap.min.js')
-		
+		script(type='text/javascript', src="#{baseUrl}/scripts/jquery.form.min.js")
+		script(type='text/javascript', src="#{baseUrl}/scripts/bootbox.js")
 	body
 		.container
-			form
+			form#form(method="POST" action="#{baseUrl}/")
 				.form-row
 					.col-md-4.mb-3
-						label(for='validationServer01') Name
-						input#validationServer01.form-control.is-valid(type='text', placeholder='Name', value='Mark', required='')
-						.valid-feedback Looks good!
+						label(for='name') Name
+						input#name.form-control(type='text', placeholder='Name',name="name")
+						span#errorName.invalid-feedback Please Enter Name!
 					.col-md-4.mb-3
-						label(for='validationServer02') Phone number
-						input#validationServer02.form-control.is-valid(type='text', placeholder='Phone number', value='Otto', required='')
-						.valid-feedback Looks good!
+						label(for='number') Phone number
+						input#number.form-control(type='text', placeholder='Phone number',name="phoneNumber")
+						span#errorNumber.invalid-feedback Please Enter Phone number!
+						span#errorValidNumber.invalid-feedback Please Enter Valid number!
 				.form-row
 					.col-md-4.mb-3
-						label(for='validationServer03') Job Title
-						input#validationServer03.form-control.is-invalid(type='text', placeholder='Job Title', required='')
-						.invalid-feedback Please provide a valid city.
+						label(for='jobTitle') Job Title
+						input#jobTitle.form-control(type='text', placeholder='Job Title',name="jobTitle")
+						span#errorJobTitle.invalid-feedback Please Enter Job Title!
 					.col-md-4.mb-3
-						label(for='exampleFormControlInput1') Email Id
-						input#exampleFormControlInput1.form-control(type='email', placeholder='name@example.com')
+						label(for='emailId') Email Id
+						input#emailId.form-control(type='email', placeholder='name@example.com',name="Email")
+						span#errorEmail.invalid-feedback
 				.form-row
 					.col-md-8.mb-3
 						.custom-file
-							input#validatedCustomFile.custom-file-input(type='file', required='')
-							label.custom-file-label(for='validatedCustomFile') Resume Upload...
-							.invalid-feedback Example invalid custom file feedback
+							label.custom-file-label(for='resume') Resume Upload...
+							input#resume.custom-file-input(type='file', name="resume")
+							span#errorResume.invalid-feedback
 				.form-group
-				button.btn.btn-primary(type='submit') Submit form
+				input.btn.btn-primary(type='button',onclick="submitForm();" value="Submit form") 
 	script.
-		//var baseUrl = '#{baseUrl}';
+		var $form = $("form#form");
+		function submitForm(){
+			var name  = $('#form #name').val();
+			var number  = $('#form #number').val();
+			var jobTitle  = $('#form #jobTitle').val();
+			var emailId  = $('#form #emailId').val();
+			var resume = $('#form #resume').val();
+
+			var emailValidate = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			var numberValidate =  /^[1-9]{1}[0-9]{9}$/;;
+			var flag = true;
+
+			if(name== undefined || name== null || name== ''){
+				$('#form #name').addClass("is-invalid");
+				flag = false;
+			}else{
+				$('#form #name').removeClass("is-invalid");
+			}
+
+			if(number== undefined || number== null || number== ''){
+				$('#form #number').addClass("is-invalid");
+				$('#form #errorValidNumber').hide();
+				$('#form #errorNumber').show();
+				flag = false;
+			}else if(numberValidate.test(number) == false){
+				$('#form #emailId').addClass("is-invalid");
+				$('#form #errorNumber').hide();
+				$('#form #errorValidNumber').show();
+				flag = false;
+			}
+			else{
+				$('#form #number').removeClass("is-invalid");
+				$('#form #errorNumber').hide();
+				$('#form #errorValidNumber').hide();
+			}
+
+			if(jobTitle== undefined || jobTitle== null || jobTitle== ''){
+				$('#form #jobTitle').addClass("is-invalid");
+				flag = false;
+			}else{
+				$('#form #jobTitle').removeClass("is-invalid");
+			}
+
+			if(emailId== undefined || emailId== null || emailId== ''){
+				$('#form #emailId').addClass("is-invalid");
+				$("#form #errorEmail").html("Please enter a email Id !");
+				flag = false;
+			}else if(emailValidate.test(emailId) == false){
+				$('#form #emailId').addClass("is-invalid");
+				$("#form #errorEmail").html("Please enter valid email Id !");
+				flag = false;
+			}else{
+				$('#form #emailId').removeClass("is-invalid");
+				$('#form #errorEmail').hide();
+				
+			}
+
+
+			var ext = resume.split('.').pop().toLowerCase();		
+		 	if(resume == ""){
+				$('#form #resume').addClass("is-invalid");
+				$("#form #errorResume").html("Resume file is required");
+				flag=false;
+			}else if($.inArray(ext, ['docs','pdf','doc','docx']) == -1 && resume !== "") {
+				$("#form #errorResume").html("Sorry!!Upload your Resume in .pdf and .docs formats only.");
+				flag=false;
+			}else{
+				$("#form #errorResume").hide();
+			}
+
+			if(flag){
+				
+				$form.ajaxSubmit({
+					success : function(response){
+						if(response.status == 200) {
+							$('#form #name').val('');
+							$('#form #number').val('');
+							$('#form #jobTitle').val('');
+							$('#form #emailId').val('');
+							$('#form #resume').val('');
+							bootbox.alert(response.message);
+						}else if(response.status == 400) {
+							bootbox.alert(response.message);
+						}else{
+							bootbox.alert("Server error, Please after some time !");
+						}
+					},
+					error : function(err){
+						bootbox.alert("Network error, Please try after some time !");
+					},
+				})
+			}
+			
+		}
