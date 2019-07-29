@@ -5,7 +5,9 @@ var constants = {
 		host:'localhost',
 		port:27017,
 		dbname:'forms',
-	}
+	},
+	UploadPath: '/public/uploads/',
+	MaxSize : 1000000
 };
 
 

@@ -1,10 +1,14 @@
 var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
+var multer  = require('multer');
+var expressValidator = require('express-validator');
 var constant = require('./constant');
+var index = require('./route/index');
+
 var db = require('./utils/db');
 var app = express();
-var router = express.Router();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -13,15 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-router.get("/",(req,res)=>{
-  res.render('header', {baseUrl:constant.baseUrl });
-})
-
-
+app.use("/",index);
 app.set('port', process.env.PORT || constant.PORT);
-app.use('/', router);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
