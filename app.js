@@ -39,7 +39,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-var server = app.listen(app.get('port'), function() {
+var server = app.listen( process.env.PORT || constant.PORT, function() {
     console.log('Express server listening on port ' + server.address().port);
   });
 
