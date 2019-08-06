@@ -1,7 +1,7 @@
 var config = require('../constant')['DATABASE'];
 var databaseUrl;
 
-databaseUrl = "mongodb://"  + config.host + ":" + config.port + "/" + config.dbname;
+databaseUrl = process.env.MONGODB_URI || "mongodb://"  + config.host + ":" + config.port + "/" + config.dbname;
 
 var collections = ["users"];
 
