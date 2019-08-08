@@ -4,7 +4,7 @@ const constant = require("../constant");
 function dbConnection(){
   
   
-  const uri =  constant.NetworkMongoConnectionUrl;
+  const uri =  process.env.MONGODB_URI;
   
   return new Promise((resolve,reject)=>{
     const client = new MongoClient(uri, { useNewUrlParser: true });
