@@ -1,14 +1,22 @@
-var config = require('../constant')['DATABASE'];
-var databaseUrl;
+const MongoClient = require('mongodb').MongoClient;
+const constant = require("../constant");
 
-databaseUrl = process.env.MONGODB_URI || "mongodb://"  + config.host + ":" + config.port + "/" + config.dbname;
+function dbConnection(){
+  
+  
+  const uri =  constant.NetworkMongoConnectionUrl;
+  
+  return new Promise((resolve,reject)=>{
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    
+    client.connect(err => {
+      var mongodb;
+      mongodb = client.db("forms");  
+    
+    resolve({mongoConnectionObj:mongodb,mongoConnection :client });
 
-var collections = ["users"];
+  });
+});
+}
 
-var db = require("mongojs")(databaseUrl, collections);
-
-
-var DB={db:db};
-
-
-module.exports = DB;
+module.exports = {connection : dbConnection};
