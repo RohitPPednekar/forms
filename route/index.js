@@ -64,7 +64,9 @@ router.get("/",async (req,res)=>{
                         console.log("----------------4-----------------")
                         if (err){
                           console.log("----------------5-----------------")
-                          fs.unlink(file.path);
+                          fs.unlink(file.path,(error)=>{
+                            reject(err);
+                          });
                           console.log("----------------6-----------------")
                           reject(err);
                           console.log("----------------7-----------------")
@@ -76,7 +78,9 @@ router.get("/",async (req,res)=>{
                             fs.writeFile(newPath, data, function (err) {
                               console.log("----------------10-----------------")
                               //delete the temporary file
-                              fs.unlink(req.file.path);
+                              fs.unlink(req.file.path,(error)=>{
+                                reject(err);
+                              });
                               console.log("----------------11-----------------")
                                 if(err) {
                                   console.log("----------------12-----------------")
