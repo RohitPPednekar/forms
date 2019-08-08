@@ -1,5 +1,5 @@
 var constants = {
-    baseUrl : "http://localhost:5000",
+    baseUrl : "https://node-forms.herokuapp.com",
     PORT: "5000",
     DATABASE:{
 		host:'localhost',
@@ -8,7 +8,6 @@ var constants = {
 	},
 	UploadPath: '/public/uploads/',
 	MaxSize : 1000000,
-	NetworkMongoConnectionUrl : "mongodb+srv://rohit:9987668365@cluster0-8scjc.mongodb.net/forms?retryWrites=true&w=majority"
 };
 
 
