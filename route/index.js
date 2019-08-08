@@ -8,26 +8,37 @@ var router  = express.Router();
 var upload = multer({
 	dest: root_path + constant.UploadPath
 });
-var db = require('../utils/db');
+const MongoDatabase = require('../utils/db');
+
 
 /** 
  * Input :- None
  * Output :- File rendered
  * Description :- Get route for main url for rendering the form page
 */
-router.get("/",(req,res)=>{
-    db.db.users.find().toArray(function(err, users) {
-      res.render('header', {baseUrl:constant.baseUrl,visits : users.length });
+router.get("/",async (req,res)=>{
+  try{
+    const data = await MongoDatabase.connection();
+    data.mongoConnectionObj.collection('users').find().toArray(function(err, users) {
+      
+      res.render('header', {baseUrl:constant.baseUrl,visits : users.length });  
     });
+    data.mongoConnection.close();
     
-  })
+  }catch(error){
+    var err = new Error('Connection Error, Please try after some time !');
+    err.status = 501;
+  };
+  
+    
+})
   
   /** 
    * Input :- Body parameter(Name, Email, jobTitle, phoneNumber, resume)
    * Output :- JSON Object
    * Description :- POST route for inserting the form data in the DB and uploading the resume file in the directory
   */
-  router.post("/",upload.single('resume'),(req,res)=>{
+  router.post("/",upload.single('resume'),async (req,res)=>{
       
       if(req.file.size > constant.MaxSize) {
         require('fs').unlink(req.file.path);
@@ -72,18 +83,26 @@ router.get("/",(req,res)=>{
   
                   uploadResume.then((data)=>{
                     var shortid =  shortidFolder+ "/"+req.file.originalname;
-                      user = {
-                          Name: req.body.name,
-                          jobTitle: req.body.jobTitle,
-                          Email: req.body.Email,
-                          PhoneNumber: req.body.phoneNumber,
-                          ResumeLocation : shortid
-                      };
-                      db.db.users.insert(user);
-                        res.json({
-                          status: 200,
-                          message: 'Data successfully inserted !',
+                      var user = {
+                            Name: req.body.name,
+                            jobTitle: req.body.jobTitle,
+                            Email: req.body.Email,
+                            PhoneNumber: req.body.phoneNumber,
+                            ResumeLocation : shortid
+                        };
+                      
+                        var connectionEst = MongoDatabase.connection().then((mongoConnectionResult)=>{
+                          var inserted = mongoConnectionResult.mongoConnectionObj.collection('users').insertOne(user).then((insertionSucced)=>{
+                            mongoConnectionResult.mongoConnection.close();
+                                res.json({
+                                  status: 200,
+                                  message: 'Data successfully inserted !',
+                                });
+                            });      
                         });
+                        
+                      
+                    
                   }).catch(err =>{
                         res.json({
                           status: 400,
