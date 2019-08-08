@@ -64,7 +64,7 @@ router.get("/",async (req,res)=>{
                           fs.unlink(file.path);
                           reject(err);
                         }else {
-                          fs.readFile(req.file.path, function (err, data) {
+                          fs.readFile(req.file.path,'utf8', function (err, data) {
                             var newPath = root_path+constant.UploadPath+shortidFolder+'/'+req.file.originalname;
                             fs.writeFile(newPath, data, function (err) {
                               //delete the temporary file
